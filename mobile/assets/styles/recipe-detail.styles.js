@@ -181,6 +181,17 @@ export const recipeDetailStyles = StyleSheet.create({
   webview: {
     flex: 1,
   },
+  videoFallback: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 16,
+  },
+  videoFallbackText: {
+    color: COLORS.primary,
+    fontSize: 16,
+    fontWeight: "600",
+  },
   ingredientsGrid: {
     gap: 12,
   },

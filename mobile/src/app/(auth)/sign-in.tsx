@@ -94,11 +94,11 @@ const [showPassword, setShowPassword] = React.useState(false);
         <TextInput
           style={[
             authStyles.textInput,
-            { backgroundColor: COLORS.backgroundElement, color: COLORS.text },
+            { backgroundColor: COLORS.background, color: COLORS.text },
           ]}
           value={code}
           placeholder="Enter your verification code"
-          placeholderTextColor={COLORS.textSecondary}
+          placeholderTextColor={COLORS.textLight}
           onChangeText={(code) => setCode(code)}
           keyboardType="numeric"
         />
@@ -146,29 +146,29 @@ const [showPassword, setShowPassword] = React.useState(false);
       <Text style={[authStyles.title, { fontSize: 24, fontWeight: "700" }]}>Sign in</Text>
       <Text style={authStyles.linkText}>Email address</Text>
       <TextInput
-        style={[authStyles.textInput, { backgroundColor: COLORS.backgroundElement, color: COLORS.text }]}
+        style={[authStyles.textInput, { backgroundColor: COLORS.background, color: COLORS.text }]}
         autoCapitalize="none"
         value={emailAddress}
         placeholder="Enter email"
-        placeholderTextColor={COLORS.textSecondary}
+        placeholderTextColor={COLORS.textLight}
         onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
         keyboardType="email-address"
       />
       {errors.fields.identifier && <Text style={styles.error}>{errors.fields.identifier.message}</Text>}
       <Text style={authStyles.linkText}>Password</Text>
-     <View style={authStyles.passwordContainer}>
+     <View style={authStyles.formContainer}>
   <TextInput
     style={[
       authStyles.textInput,
-      authStyles.passwordInput,
+      authStyles.textInput,
       {
-        backgroundColor: COLORS.backgroundElement,
+        backgroundColor: COLORS.background,
         color: COLORS.text,
       },
     ]}
     value={password}
     placeholder="Enter password"
-    placeholderTextColor={COLORS.textSecondary}
+    placeholderTextColor={COLORS.textLight}
     secureTextEntry={!showPassword}
     onChangeText={(password) => setPassword(password)}
   />
@@ -180,7 +180,7 @@ const [showPassword, setShowPassword] = React.useState(false);
     <Ionicons
       name={showPassword ? "eye-outline" : "eye-off-outline"}
       size={22}
-      color={COLORS.textSecondary}
+      color={COLORS.textLight}
     />
   </TouchableOpacity>
 </View>

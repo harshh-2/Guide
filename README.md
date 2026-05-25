@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🍽️ Recipe Book
+# 🍽️ Full-Stack Recipie App
 
 **A full-stack cross-platform mobile app for discovering, searching, and saving recipes from around the world.**
 
@@ -26,6 +26,60 @@
 Recipe Book connects to the **TheMealDB API** (12,000+ recipes) and pairs it with a custom **Node.js/Express backend** for cloud-synced favorites. Users get a warm, multi-themed interface with secure Clerk authentication, debounced dual-mode search, YouTube video guides, and glassmorphism UI — all running natively on iOS, Android, and Web from a single codebase.
 
 **8 screens · 4 API endpoints · 6 reusable components · 3 custom hooks · 3 DB migrations · 30+ packages**
+
+---
+## Screenshots
+
+<div align="center">
+
+### 🔐 Auth
+
+<p>
+  <img src="<img width="1080" height="2392" alt="singin" src="https://github.com/user-attachments/assets/5c593f86-56b7-4c78-9e2e-0e2f3eb5afaf" />
+" width="28%" alt="Sign In"/>
+  &nbsp;&nbsp;
+  <img src="<img width="1080" height="2392" alt="signup" src="https://github.com/user-attachments/assets/2fa64ba8-2882-4b68-9a3a-d2634d0b5720" />
+" width="28%" alt="Sign Up"/>
+</p>
+
+### 🏠 Home & Discovery
+
+<p>
+  <img src="<img width="1080" height="2392" alt="Home" src="https://github.com/user-attachments/assets/96838df0-b29c-4746-8b12-8eba8d2d1191" />
+" width="28%" alt="Home Screen"/>
+  &nbsp;&nbsp;
+  <img src="<img width="1080" height="2392" alt="home2" src="https://github.com/user-attachments/assets/fe4e1162-05c1-49e2-b562-5917c2c3dcd3" />
+" width="28%" alt="Recipe Grid"/>
+</p>
+
+### 🔍 Search
+
+<p>
+  <img src="<img width="1080" height="2392" alt="search" src="https://github.com/user-attachments/assets/5b7b6258-f138-447a-9761-24bd64040b0e" />
+" width="28%" alt="Search"/>
+</p>
+
+### 📋 Recipe Detail
+
+<p>
+  <img src="<img width="1080" height="2392" alt="rec1" src="https://github.com/user-attachments/assets/627feed6-1dfd-4c50-9b1b-7966c5c941bf" />
+" width="28%" alt="Detail Hero"/>
+  &nbsp;&nbsp;
+  <img src="<img width="1080" height="2392" alt="rec2" src="https://github.com/user-attachments/assets/588345b7-c35a-469b-8cf0-b5d65562666f" />
+" width="28%" alt="Ingredients"/>
+  &nbsp;&nbsp;
+  <img src="<img width="1080" height="2392" alt="rec3" src="https://github.com/user-attachments/assets/6ab6467c-683f-45d1-ada6-754b1e16a31f" />
+" width="28%" alt="Instructions"/>
+</p>
+
+### ❤️ Favorites
+
+<p>
+  <img src="<img width="1080" height="2392" alt="fav" src="https://github.com/user-attachments/assets/d0f93198-4886-4270-9712-a72071e799d7" />
+" width="28%" alt="Favorites"/>
+</p>
+
+</div>
 
 ---
 
@@ -367,52 +421,6 @@ if (ENV.NODE_ENV === "production") {
 | Image loading | Cached + lazy via Expo Image |
 | Backend cold start | Mitigated — cron keep-alive every 14 min |
 | FlatList rendering | Virtualized via `removeClippedSubviews` |
-
----
-
-## Screenshots
-
-<div align="center">
-
-### 🔐 Auth
-
-<p>
-  <img src="./screen_signin.png" width="28%" alt="Sign In"/>
-  &nbsp;&nbsp;
-  <img src="./screen_signup.png" width="28%" alt="Sign Up"/>
-</p>
-
-### 🏠 Home & Discovery
-
-<p>
-  <img src="./screen_home.png" width="28%" alt="Home Screen"/>
-  &nbsp;&nbsp;
-  <img src="./screen_recipe_grid.png" width="28%" alt="Recipe Grid"/>
-</p>
-
-### 🔍 Search
-
-<p>
-  <img src="./screen_search.png" width="28%" alt="Search"/>
-</p>
-
-### 📋 Recipe Detail
-
-<p>
-  <img src="./screen_detail_hero.png" width="28%" alt="Detail Hero"/>
-  &nbsp;&nbsp;
-  <img src="./screen_ingredients.png" width="28%" alt="Ingredients"/>
-  &nbsp;&nbsp;
-  <img src="./screen_instructions.png" width="28%" alt="Instructions"/>
-</p>
-
-### ❤️ Favorites
-
-<p>
-  <img src="./screen_favorites.png" width="28%" alt="Favorites"/>
-</p>
-
-</div>
 
 ---
 

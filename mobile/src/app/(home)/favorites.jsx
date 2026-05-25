@@ -10,7 +10,6 @@ import NoFavoritesFound from "../../../components/NoFavoritesFound";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 
 const FavoritesScreen = () => {
-  const { signOut } = useClerk();
   const { user } = useUser();
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,12 +41,7 @@ const FavoritesScreen = () => {
     loadFavorites();
   }, [user]);
 
-  const handleSignOut = () => {
-    Alert.alert("Logout", "Are you sure you want to logout?", [
-      { text: "Cancel", style: "cancel" },
-      { text: "Logout", style: "destructive", onPress: signOut },
-    ]);
-  };
+  const count = favoriteRecipes.length;
 
   if (loading) return <LoadingSpinner message="Loading your favorites..." />;
 
@@ -56,9 +50,6 @@ const FavoritesScreen = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={favoritesStyles.header}>
           <Text style={favoritesStyles.title}>Favorites</Text>
-          <TouchableOpacity style={favoritesStyles.logoutButton} onPress={handleSignOut}>
-            <Ionicons name="log-out-outline" size={22} color={COLORS.text} />
-          </TouchableOpacity>
         </View>
 
         <View style={favoritesStyles.recipesSection}>

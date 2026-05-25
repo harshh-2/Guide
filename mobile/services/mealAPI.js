@@ -1,12 +1,58 @@
 const BASE_URL = "https://www.themealdb.com/api/json/v1/1";
 
+const BLOCKED_CATEGORIES = [
+  "Pork",
+  "Beef",
+];
+
+const BLOCKED_INGREDIENTS = [
+  "pork",
+  "beef",
+  "wine",
+  "rum",
+  "vodka",
+  "whiskey",
+  "beer",
+];
+
+const shouldExcludeMeal = (meal) => {
+  if (!meal) return true;
+
+  if (
+    meal.strCategory &&
+    BLOCKED_CATEGORIES.includes(meal.strCategory)
+  ) {
+    return true;
+  }
+
+  for (let i = 1; i <= 20; i++) {
+    const ingredient = meal[`strIngredient${i}`];
+
+    if (
+      ingredient &&
+      BLOCKED_INGREDIENTS.some((blocked) =>
+        ingredient.toLowerCase().includes(blocked.toLowerCase())
+      )
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
 export const MealAPI = {
- 
   searchMealsByName: async (query) => {
     try {
-      const response = await fetch(`${BASE_URL}/search.php?s=${encodeURIComponent(query)}`);
+      const response = await fetch(
+        `${BASE_URL}/search.php?s=${encodeURIComponent(query)}`
+      );
+
       const data = await response.json();
-      return data.meals || [];
+
+      return (data.meals || []).filter(
+        (meal) => !shouldExcludeMeal(meal)
+      );
     } catch (error) {
       console.error("Error searching meals by name:", error);
       return [];
@@ -15,9 +61,19 @@ export const MealAPI = {
 
   getMealById: async (id) => {
     try {
-      const response = await fetch(`${BASE_URL}/lookup.php?i=${id}`);
+      const response = await fetch(
+        `${BASE_URL}/lookup.php?i=${id}`
+      );
+
       const data = await response.json();
-      return data.meals ? data.meals[0] : null;
+
+      const meal = data.meals ? data.meals[0] : null;
+
+      if (shouldExcludeMeal(meal)) {
+        return null;
+      }
+
+      return meal;
     } catch (error) {
       console.error("Error getting meal by id:", error);
       return null;
@@ -27,34 +83,49 @@ export const MealAPI = {
   getRandomMeal: async () => {
     try {
       const response = await fetch(`${BASE_URL}/random.php`);
+
       const data = await response.json();
-      return data.meals ? data.meals[0] : null;
+
+      const meal = data.meals ? data.meals[0] : null;
+
+      if (shouldExcludeMeal(meal)) {
+        return null;
+      }
+
+      return meal;
     } catch (error) {
       console.error("Error getting random meal:", error);
       return null;
     }
   },
 
-
   getRandomMeals: async (count = 6) => {
     try {
       const promises = Array(count)
         .fill()
         .map(() => MealAPI.getRandomMeal());
+
       const meals = await Promise.all(promises);
-      return meals.filter((meal) => meal !== null);
+
+      return meals.filter(
+        (meal) => meal !== null && !shouldExcludeMeal(meal)
+      );
     } catch (error) {
       console.error("Error getting random meals:", error);
       return [];
     }
   },
 
- 
   getCategories: async () => {
     try {
       const response = await fetch(`${BASE_URL}/categories.php`);
+
       const data = await response.json();
-      return data.categories || [];
+
+      return (data.categories || []).filter(
+        (category) =>
+          !BLOCKED_CATEGORIES.includes(category.strCategory)
+      );
     } catch (error) {
       console.error("Error getting categories:", error);
       return [];
@@ -63,21 +134,36 @@ export const MealAPI = {
 
   filterByIngredient: async (ingredient) => {
     try {
-      const response = await fetch(`${BASE_URL}/filter.php?i=${encodeURIComponent(ingredient)}`);
+      const response = await fetch(
+        `${BASE_URL}/filter.php?i=${encodeURIComponent(ingredient)}`
+      );
+
       const data = await response.json();
-      return data.meals || [];
+
+      return (data.meals || []).filter(
+        (meal) => !shouldExcludeMeal(meal)
+      );
     } catch (error) {
       console.error("Error filtering by ingredient:", error);
       return [];
     }
   },
 
-
   filterByCategory: async (category) => {
     try {
-      const response = await fetch(`${BASE_URL}/filter.php?c=${encodeURIComponent(category)}`);
+      if (BLOCKED_CATEGORIES.includes(category)) {
+        return [];
+      }
+
+      const response = await fetch(
+        `${BASE_URL}/filter.php?c=${encodeURIComponent(category)}`
+      );
+
       const data = await response.json();
-      return data.meals || [];
+
+      return (data.meals || []).filter(
+        (meal) => !shouldExcludeMeal(meal)
+      );
     } catch (error) {
       console.error("Error filtering by category:", error);
       return [];
@@ -86,19 +172,37 @@ export const MealAPI = {
 
   transformMealData: (meal) => {
     if (!meal) return null;
+
     const ingredients = [];
+
     for (let i = 1; i <= 20; i++) {
       const ingredient = meal[`strIngredient${i}`];
       const measure = meal[`strMeasure${i}`];
+
       if (ingredient && ingredient.trim()) {
-        const measureText = measure && measure.trim() ? `${measure.trim()} ` : "";
-        ingredients.push(`${measureText}${ingredient.trim()}`);
+        if (
+          BLOCKED_INGREDIENTS.some((blocked) =>
+            ingredient.toLowerCase().includes(blocked.toLowerCase())
+          )
+        ) {
+          continue;
+        }
+
+        const measureText =
+          measure && measure.trim()
+            ? `${measure.trim()} `
+            : "";
+
+        ingredients.push(
+          `${measureText}${ingredient.trim()}`
+        );
       }
     }
 
-    
     const instructions = meal.strInstructions
-      ? meal.strInstructions.split(/\r?\n/).filter((step) => step.trim())
+      ? meal.strInstructions
+          .split(/\r?\n/)
+          .filter((step) => step.trim())
       : [];
 
     return {
@@ -107,6 +211,7 @@ export const MealAPI = {
       description: meal.strInstructions
         ? meal.strInstructions.substring(0, 120) + "..."
         : "Delicious meal from TheMealDB",
+
       image: meal.strMealThumb,
       cookTime: "30 minutes",
       servings: 4,

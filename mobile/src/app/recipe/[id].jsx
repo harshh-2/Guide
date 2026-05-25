@@ -12,7 +12,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { COLORS } from "../../../constants/colors";
 
 import { Ionicons } from "@expo/vector-icons";
-import { WebView } from "react-native-webview";
 
 const RecipeDetailScreen = () => {
   const { id: recipeId } = useLocalSearchParams();
@@ -64,12 +63,21 @@ const RecipeDetailScreen = () => {
     loadRecipeDetail();
   }, [recipeId, userId]);
 
-  const getYouTubeEmbedUrl = (url) => {
-    if (!url || typeof url !== "string") return null;
-    const vMatch = url.match(/[?&]v=([^&]+)/);
-    const shortMatch = url.match(/youtu\.be\/(.+)$/);
-    const videoId = (vMatch && vMatch[1]) || (shortMatch && shortMatch[1]);
-    return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+  const getYouTubeVideoId = (url) => {
+    if (!url || typeof url !== "string")
+      return null;
+
+    const vMatch =
+      url.match(/[?&]v=([^&]+)/);
+
+    const shortMatch =
+      url.match(/youtu\.be\/([^?]+)/);
+
+    return (
+      (vMatch && vMatch[1]) ||
+      (shortMatch && shortMatch[1]) ||
+      null
+    );
   };
 
   const handleToggleSave = async () => {
@@ -218,21 +226,40 @@ const RecipeDetailScreen = () => {
               </View>
 
                   <View style={recipeDetailStyles.videoCard}>
-                    {Platform.OS !== "web" ? (
-                      <WebView
-                        style={recipeDetailStyles.webview}
-                        source={{ uri: getYouTubeEmbedUrl(recipe.youtubeUrl) }}
-                        allowsFullscreenVideo
-                        mediaPlaybackRequiresUserAction={false}
+                    <TouchableOpacity
+                      style={recipeDetailStyles.videoFallback}
+                      onPress={() =>
+                        Linking.openURL(recipe.youtubeUrl)
+                      }
+                    >
+                      <Image
+                        source={{
+                          uri: `https://img.youtube.com/vi/${getYouTubeVideoId(
+                            recipe.youtubeUrl
+                          )}/hqdefault.jpg`,
+                        }}
+                        style={{
+                          width: "100%",
+                          height: 220,
+                          borderRadius: 20,
+                        }}
+                        contentFit="cover"
                       />
-                    ) : (
-                      <TouchableOpacity
-                        style={recipeDetailStyles.videoFallback}
-                        onPress={() => Linking.openURL(recipe.youtubeUrl)}
+
+                      <View
+                        style={{
+                          position: "absolute",
+                          top: "38%",
+                          left: "42%",
+                        }}
                       >
-                        <Text style={recipeDetailStyles.videoFallbackText}>Open video in browser</Text>
-                      </TouchableOpacity>
-                    )}
+                        <Ionicons
+                          name="play-circle"
+                          size={72}
+                          color="white"
+                        />
+                      </View>
+                    </TouchableOpacity>
                   </View>
             </View>
           )}

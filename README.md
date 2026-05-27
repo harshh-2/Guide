@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🍽️ Full-Stack ReciGuide
+# Full-Stack ReciGuide
 
 **A full-stack cross-platform mobile app for discovering, searching, and saving recipes from around the world.**
 
@@ -46,6 +46,13 @@ Recipe Book connects to the **TheMealDB API** (12,000+ recipes) and pairs it wit
     width="28%"
     alt="Sign Up"
   />
+  
+  <img 
+         src="https://github.com/user-attachments/assets/141eff8e-addd-4fe9-ab10-45397cf0baf3" 
+          width="28%" 
+         alt="otp screen" 
+  />
+
 </p>
 
 ---

@@ -30,7 +30,7 @@ Recipe Book connects to the **TheMealDB API** (12,000+ recipes) and pairs it wit
 ---
 ## 📥 Download APK
 
-[![Download APK](https://img.shields.io/badge/Download-APK-green?style=for-the-badge&logo=android)](https://github.com/harshh-2/Guide/releases/latest)
+[Download APK](https://github.com/harshh-2/Guide/releases/latest)
 
 ---
 
